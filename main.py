@@ -52,7 +52,7 @@ class scan(threading.Thread):
 
     def run(self, ip):
         activeThreads = []
-        self.totalSTime = datetime.now()
+        threads_to_use = 255
         delayScan = ping(ip, size=32, count=4)
 
         if(float(delayScan.rtt_avg_ms) >= 1000):
@@ -64,8 +64,10 @@ class scan(threading.Thread):
         self.newDict[ip] = {}
         self.newDict[ip]["ports"] = {}
         port_a = 0
-        port_b = 1285
-        for x in range(0, 51):
+        port_b = 257
+        self.totalSTime = datetime.now()
+        print("\x1b[95m[\x1b[92mSCANNER\x1b[95m]\x1b[92mAssigning \x1b[95m%d \x1b[92mThreads to\x1b[97m: \x1b[95m%s\x1b[97m" % (threads_to_use, ip))
+        for x in range(0, threads_to_use):
             port_range = "%d-%d" % (
                 port_a,
                 port_b
@@ -73,15 +75,15 @@ class scan(threading.Thread):
             thread = threading.Thread(target=self.scan, args=(ip, port_range, ourDelay))
             thread.start()
             activeThreads.append(thread)
-            port_a += 1285
-            port_b += 1285
+            port_a += 257
+            port_b += 257
 
-        print("\x1b[95m[\x1b[92mSCANNER\x1b[95m]\x1b[92mAssigned \x1b[95m%d \x1b[92mThreads to\x1b[97m: \x1b[95m%s\x1b[97m" % (len(activeThreads), ip))
+        
         
         for threads in activeThreads:
             threads.join()
             activeThreads.remove(threads)
-
+        self.t2 = datetime.now()
         if(22 in self.newDict[ip]['ports']):
             self.newDict[ip]["type"] = "Possible server"
         else:
@@ -102,8 +104,7 @@ class scan(threading.Thread):
         self.run(self.targetIP)
         
         sleep(0.2)
-        t2 = datetime.now()
-        total = t2 - self.totalSTime
+        total = self.t2 - self.totalSTime
         print("\x1b[95m[\x1b[92mSCANNER\x1b[95m]\x1b[92mTotal Scanning Time\x1b[97m: \x1b[95m%s\x1b[97m" % total)
         return True
 
