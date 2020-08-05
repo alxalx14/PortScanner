@@ -21,7 +21,6 @@ class scan(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.targetIP = argv[1]
-        #print("\x1b[95m[\x1b[92mSCANNER\x1b[95m]\x1b[92mLoaded\x1b[97m:\x1b[95m%d \x1b[92mIPs\x1b[97m" % len(self.targetIP))
         self.newDict = {}
     
 
@@ -53,7 +52,7 @@ class scan(threading.Thread):
     def run(self, ip):
         activeThreads = []
         threads_to_use = 255
-        delayScan = ping(ip, size=32, count=4)
+        delayScan = ping(ip, size=5, count=4)
 
         if(float(delayScan.rtt_avg_ms) >= 1000):
             ourDelay = 0.08
