@@ -4,7 +4,7 @@
 This portscanner pings the target host in order to get the average ping and then </br>
 proceeds to use that + a few milliseconds, as the maximum timeout for each socket.</br>
 For it to better and faster handle the scanning, it creates threads and assings </br>
-each thread a range of 1285 ports to scan. After the scan is done it tells you the time</br>
+each thread a range of 257 ports to scan. After the scan is done it tells you the time</br>
 it took since thee command was executed until the scan is done, and also saves the </br>
 data in a JSON file. I recommend using PyPy as I have been able to get better results</br>
 with it. Down below I have posted some benchmarks of using PyPy and not using it.</br>
